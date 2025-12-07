@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TOP SECRET INTELLIGENCE DOSSIER</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm 1.5cm 2cm 1.5cm;
+            @top-center {
+                content: "{{ meta.classification_code }} // {{ meta.tlp }}";
+                font-family: "Courier New", monospace;
+                font-weight: bold;
+                font-size: 14pt;
+                border-bottom: 3px solid #000;
+                padding-bottom: 8px;
+                margin-bottom: 10px;
+            }
+            @bottom-center {
+                content: "{{ meta.report_id }} | PAGE " counter(page) " OF " counter(pages);
+                font-family: "Courier New", monospace;
+                font-size: 8pt;
+                border-top: 1px solid #000;
+                padding-top: 5px;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Courier New", monospace;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #000;
+            background: #fff;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .redacted {
+            background-color: #000;
+            color: #000;
+            padding: 0 2px;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
+
+        /* Header Section */
+        .header {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 20px;
+            border-bottom: 4px double #000;
+            padding: 10px 0 15px 0;
+            margin-bottom: 15px;
+            align-items: start;
+        }
+
+        .logo {
+            text-align: center;
+        }
+
+        .logo img {
+            width: 100px;
+            height: 100px;
+            filter: grayscale(100%);
+            border: 2px solid #000;
+        }
+
+        .header-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 20px;
+            font-size: 9pt;
+            line-height: 1.3;
+        }
+
+        .header-item {
+            border-left: 3px solid #000;
+            padding-left: 8px;
+        }
+
+        .header-item-label {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        /* Classification Banners */
+        .banner-class {
+            background: #f0f0f0;
+            border: 2px solid #000;
+            padding: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 9pt;
+        }
+
+        .banner-warning {
+            background: #ffcccc;
+            border: 3px solid #c00;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+            color: #c00;
+            font-size: 9pt;
+        }
+
+        h1 {
+            font-size: 14pt;
+            text-align: center;
+            text-transform: uppercase;
+            border: 2px solid #000;
+            padding: 8px;
+            margin: 15px 0;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            background: #000;
+            color: #fff;
+            padding: 6px 10px;
+            margin: 15px 0 10px 0;
+            font-size: 11pt;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            background: #ddd;
+            padding: 4px 8px;
+            margin: 10px 0 8px 0;
+            font-size: 9pt;
+            text-transform: uppercase;
+            page-break-after: avoid;
+        }
+
+        h4 {
+            margin: 8px 0 4px 0;
+            font-size: 9pt;
+            font-weight: bold;
+            border-bottom: 1px solid #999;
+            padding-bottom: 2px;
+        }
+
+        p {
+            margin: 6px 0;
+            text-align: justify;
+            white-space: pre-wrap;
+        }
+
+        /* Profile Section */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 15px;
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            background: #f9f9f9;
+        }
+
+        .profile-photo {
+            text-align: center;
+        }
+
+        .profile-photo img {
+            width: 100px;
+            height: 140px;
+            border: 2px solid #000;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.1);
+        }
+
+        .profile-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 15px;
+            font-size: 9pt;
+        }
+
+        .profile-item {
+            border-bottom: 1px dotted #999;
+            padding-bottom: 3px;
+        }
+
+        .profile-label {
+            font-weight: bold;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 9pt;
+        }
+
+        table thead {
+            background: #333;
+            color: #fff;
+        }
+
+        table th {
+            padding: 6px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #000;
+        }
+
+        table td {
+            padding: 5px;
+            border: 1px solid #ccc;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        table tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        .risk-critical {
+            background: #ffcccc;
+            font-weight: bold;
+        }
+
+        .risk-high {
+            background: #ffeecc;
+        }
+
+        .risk-medium {
+            background: #ffffcc;
+        }
+
+        .risk-low {
+            background: #ccffcc;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 8px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin: 4px 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Info Box */
+        .infobox {
+            border: 1px solid #000;
+            padding: 8px;
+            margin: 10px 0;
+            background: #f0f0f0;
+            font-size: 9pt;
+        }
+
+        /* Two Column Grid */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .grid-item {
+            border-left: 3px solid #999;
+            padding-left: 10px;
+        }
+
+        /* Data Grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 20px;
+            font-size: 9pt;
+            margin: 10px 0;
+        }
+
+        .data-row {
+            display: contents;
+        }
+
+        .data-label {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .data-value {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Threat Meter */
+        .threat-meter {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 10px;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 9pt;
+        }
+
+        .meter-label {
+            font-weight: bold;
+        }
+
+        .meter-bar {
+            height: 20px;
+            background: #ddd;
+            border: 1px solid #000;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00cc00, #ffff00, #ff6600, #cc0000);
+        }
+
+        /* Page Break */
+        .page-break {
+            page-break-after: always;
+        }
+
+        .avoid-break {
+            page-break-inside: avoid;
+        }
+
+        /* Footer */
+        .footer-banner {
+            background: #f0f0f0;
+            border: 2px solid #000;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 9pt;
+            margin-top: 20px;
+        }
+
+        .barcode {
+            height: 30px;
+            margin: 15px 0;
+            background: repeating-linear-gradient(90deg, #000 0px, #000 2px, #fff 2px, #fff 4px);
+        }
+
+        /* Redaction Support */
+        .redacted {
+            background: #000;
+            color: #000;
+        }
+
+        /* Flow Control */
+        .section {
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            {% if images.logo %}
+            <img src="{{ images.logo }}" alt="Agency Logo">
+            {% else %}
+            <div style="width: 100px; height: 100px; border: 2px solid #000; display: flex; align-items: center; justify-content: center; font-size: 8pt;">[LOGO]</div>
+            {% endif %}
+        </div>
+        <div class="header-info">
+            <div class="header-item">
+                <div class="header-item-label">CLASSIFICATION:</div>
+                {{ meta.classification_code }}
+            </div>
+            <div class="header-item">
+                <div class="header-item-label">REPORT ID:</div>
+                {{ meta.report_id }}
+            </div>
+            <div class="header-item">
+                <div class="header-item-label">DATE CREATED:</div>
+                {{ meta.date_created }}
+            </div>
+            <div class="header-item">
+                <div class="header-item-label">AUTHOR:</div>
+                {{ meta.author | redact }}
+            </div>
+            <div class="header-item">
+                <div class="header-item-label">ORGANIZATION:</div>
+                {{ meta.org_name }}
+            </div>
+            <div class="header-item">
+                <div class="header-item-label">TLP LEVEL:</div>
+                {{ meta.tlp }}
+            </div>
+            <div class="header-item">
+                <div class="header-item-label">DECLASSIFY:</div>
+                {{ meta.declassification_date }}
+            </div>
+            <div class="header-item">
+                <div class="header-item-label">HANDLING:</div>
+                {{ meta.handling_caveats }}
+            </div>
+        </div>
+    </div>
+
+    <!-- CLASSIFICATION WARNING -->
+    <div class="banner-class">
+        {{ meta.classification }} // {{ meta.tlp }}<br>
+        CAVEATS: {{ meta.handling_caveats }}<br>
+        DECLASSIFY ON: {{ meta.declassification_date }}
+    </div>
+
+    <div class="banner-warning">
+        ⚠️ WARNING: CLASSIFIED INTELLIGENCE DOCUMENT<br>
+        UNAUTHORIZED DISCLOSURE PROHIBITED - UP TO 10 YEARS IMPRISONMENT<br>
+        DISTRIBUTION: NEED-TO-KNOW PERSONNEL ONLY
+    </div>
+
+    <!-- TITLE -->
+    <h1>INTELLIGENCE DOSSIER: {{ target.name | redact }}</h1>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <h2>EXECUTIVE SUMMARY</h2>
+    <div class="infobox">
+        <strong>STATUS:</strong> {{ target.status }}<br>
+        <strong>THREAT LEVEL:</strong> <span class="risk-critical">{{ target.threat_level }} ({{ target.threat_rating }}/10)</span><br>
+        <strong>WANTED STATUS:</strong> {{ target.wanted_status }}<br>
+        <strong>PRIMARY CHARGES:</strong> {{ target.wanted_for | redact }}<br>
+        <strong>BOUNTY:</strong> {{ target.bounty }}
+    </div>
+
+    <!-- SECTION 1: SUBJECT IDENTIFICATION -->
+    <div class="section">
+        <h2>1. SUBJECT IDENTIFICATION</h2>
+
+        <div class="profile-grid">
+            <div class="profile-photo">
+                {% if images.profile %}
+                <img src="{{ images.profile }}" alt="Subject Photo">
+                {% else %}
+                <div style="width: 100px; height: 140px; border: 2px solid #000; display: flex; align-items: center; justify-content: center;">[PHOTO]</div>
+                {% endif %}
+            </div>
+            <div class="profile-info">
+                <div class="profile-item"><span class="profile-label">LEGAL NAME:</span> {{ target.legal_name }}</div>
+                <div class="profile-item"><span class="profile-label">PRIMARY ALIAS:</span> {{ target.alias | redact }}</div>
+                <div class="profile-item"><span class="profile-label">AGE:</span> {{ target.age }}</div>
+                <div class="profile-item"><span class="profile-label">DATE OF BIRTH:</span> {{ target.dob }}</div>
+                <div class="profile-item"><span class="profile-label">NATIONALITY:</span> {{ target.nationality }}</div>
+                <div class="profile-item"><span class="profile-label">GENDER:</span> {{ target.gender }}</div>
+                <div class="profile-item" style="grid-column: span 2;"><span class="profile-label">THREAT RATING:</span> <span class="risk-critical">{{ target.threat_rating }}/10 - CRITICAL</span></div>
+            </div>
+        </div>
+
+        <h3>Identification Records</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Information</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="risk-critical">
+                    <td><strong>INTERPOL Status</strong></td>
+                    <td>{{ target.wanted_status | redact }}</td>
+                    <td>ACTIVE ALERT</td>
+                </tr>
+                <tr class="risk-critical">
+                    <td><strong>Arrest Warrant</strong></td>
+                    <td>{{ target.arrest_warrant | redact }}</td>
+                    <td>FEDERAL WARRANT</td>
+                </tr>
+                {% if target.passport_numbers %}
+                <tr class="risk-high">
+                    <td><strong>Known Passports</strong></td>
+                    <td>{{ target.passport_numbers | redact }}</td>
+                    <td>FLAGGED</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td><strong>Known Aliases</strong></td>
+                    <td>{% for alias in target.aliases_known %}{{ alias | redact }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
+                    <td>{{ target.aliases_known|length }} aliases</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 2: PHYSICAL DESCRIPTION & BIOMETRICS -->
+    <div class="section">
+        <h2>2. PHYSICAL DESCRIPTION & BIOMETRICS</h2>
+
+        <h3>Physical Characteristics</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Characteristic</th>
+                    <th>Description</th>
+                    <th>Verified</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Height</strong></td>
+                    <td>{{ biometrics.height }}</td>
+                    <td>✓ Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Weight</strong></td>
+                    <td>{{ biometrics.weight }}</td>
+                    <td>✓ Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Build</strong></td>
+                    <td>{{ biometrics.build }}</td>
+                    <td>✓ Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Eye Color</strong></td>
+                    <td>{{ biometrics.eye_color }}</td>
+                    <td>✓ Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Hair Color</strong></td>
+                    <td>{{ biometrics.hair_color }}</td>
+                    <td>✓ Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Ethnicity</strong></td>
+                    <td>{{ biometrics.ethnicity }}</td>
+                    <td>✓ Yes</td>
+                </tr>
+                <tr>
+                    <td><strong>Apparent Age</strong></td>
+                    <td>{{ biometrics.age_apparent }}</td>
+                    <td>Estimated</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Distinguishing Features</h3>
+        <div class="grid-2col">
+            <div class="grid-item">
+                <h4>Marks & Identifiers</h4>
+                <ul>
+                    <li><strong>Scars/Marks:</strong> {{ biometrics.scars_marks | redact }}</li>
+                    <li><strong>Tattoos:</strong> {{ biometrics.tattoos | redact }}</li>
+                    <li><strong>Birthmarks:</strong> {{ biometrics.birthmarks }}</li>
+                    <li><strong>Blood Type:</strong> {{ biometrics.blood_type }}</li>
+                </ul>
+            </div>
+            <div class="grid-item">
+                <h4>Medical & Other</h4>
+                <ul>
+                    <li><strong>Languages:</strong> {{ biometrics.known_languages }}</li>
+                    {% if biometrics.medical_conditions %}<li><strong>Medical Conditions:</strong> {{ biometrics.medical_conditions | redact }}</li>{% endif %}
+                    {% if biometrics.known_allergies %}<li><strong>Allergies:</strong> {{ biometrics.known_allergies | redact }}</li>{% endif %}
+                    <li><strong>Education:</strong> {{ biometrics.education_level }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Behavioral Profile</h3>
+        <div class="infobox">
+            {{ biometrics.behavioral_profile | redact }}
+        </div>
+    </div>
+
+    <!-- SECTION 3: LOCATION & STATUS -->
+    <div class="section">
+        <h2>3. CURRENT LOCATION & STATUS</h2>
+
+        <h3>Last Known Location</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="risk-high">
+                    <td><strong>LOCATION</strong></td>
+                    <td>{{ target.location | redact }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Confidence Level</strong></td>
+                    <td>{{ target.last_known_location_confidence }}</td>
+                </tr>
+                {% if target.location_coordinates %}<tr class="risk-medium">
+                    <td><strong>Coordinates (GPS)</strong></td>
+                    <td>{{ target.location_coordinates | redact }}</td>
+                </tr>{% endif %}
+                <tr class="risk-critical">
+                    <td><strong>Wanted Status</strong></td>
+                    <td>{{ target.wanted_status }}</td>
+                </tr>
+                <tr class="risk-critical">
+                    <td><strong>Monitoring Status</strong></td>
+                    <td>ACTIVE SURVEILLANCE RECOMMENDED</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 4: INTELLIGENCE ASSESSMENT -->
+    <div class="section">
+        <h2>4. INTELLIGENCE ASSESSMENT</h2>
+        <div class="infobox">
+            {{ intelligence_summary | redact }}
+        </div>
+    </div>
+
+    <!-- SECTION 5: OSINT -->
+    {% if osint %}
+    <div class="section">
+        <h2>5. OPEN SOURCE INTELLIGENCE (OSINT)</h2>
+
+        <h3>Online Presence & Digital Footprint</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Platform/Account Type</th>
+                    <th>Details</th>
+                    <th>Risk Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Dark Web Active</strong></td>
+                    <td>{{ osint.dark_web_presence }}</td>
+                    <td class="risk-critical">CRITICAL</td>
+                </tr>
+                {% if osint.known_handles %}
+                <tr>
+                    <td><strong>Known Handles</strong></td>
+                    <td>{% for handle in osint.known_handles %}{{ handle | redact }}<br>{% endfor %}</td>
+                    <td class="risk-high">HIGH</td>
+                </tr>
+                {% endif %}
+                {% if osint.email_accounts %}
+                <tr>
+                    <td><strong>Email Accounts</strong></td>
+                    <td>{% for email in osint.email_accounts %}{{ email | redact }}<br>{% endfor %}</td>
+                    <td class="risk-high">HIGH</td>
+                </tr>
+                {% endif %}
+                {% if osint.cryptocurrency_wallets %}
+                <tr>
+                    <td><strong>Cryptocurrency Wallets</strong></td>
+                    <td>{% for wallet in osint.cryptocurrency_wallets %}{{ wallet | redact }}<br>{% endfor %}</td>
+                    <td class="risk-critical">CRITICAL</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <h3>Reputation & Activity</h3>
+        <ul>
+            {% if osint.forums %}<li><strong>Known Forums:</strong> {% if osint.forums is string %}{{ osint.forums }}{% else %}{% for forum in osint.forums %}{{ forum }}<br>{% endfor %}{% endif %}</li>{% endif %}
+            <li><strong>Reputation Score:</strong> {{ osint.reputation_score }}/10</li>
+            <li><strong>Activity Level:</strong> VERY HIGH</li>
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- SECTION 6: SIGINT -->
+    {% if sigint %}
+    <div class="section">
+        <h2>6. SIGNALS INTELLIGENCE (SIGINT)</h2>
+
+        <h3>Communication Data</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Contact/Identifier</th>
+                    <th>Status</th>
+                    <th>Last Activity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if sigint.phone_numbers %}
+                {% for phone in sigint.phone_numbers %}
+                <tr class="risk-high">
+                    <td><strong>Telephone</strong></td>
+                    <td>{{ phone | redact }}</td>
+                    <td>MONITORING</td>
+                    <td>{{ sigint.last_contact }}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+        <h3>Technical Infrastructure</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Information</th>
+                    <th>Assessment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Communication Methods</strong></td>
+                    <td>{{ sigint.communication_methods | join(', ') }}</td>
+                    <td>ACTIVE</td>
+                </tr>
+                <tr class="risk-high">
+                    <td><strong>Encryption Level</strong></td>
+                    <td>{{ sigint.encryption_level }}</td>
+                    <td>STRONG</td>
+                </tr>
+                <tr class="risk-high">
+                    <td><strong>Technical Capability</strong></td>
+                    <td>{{ sigint.estimated_technical_capability }}</td>
+                    <td>ADVANCED</td>
+                </tr>
+                <tr>
+                    <td><strong>Communication Frequency</strong></td>
+                    <td>{{ sigint.communication_frequency }}</td>
+                    <td>REGULAR</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- SECTION 7: HUMINT -->
+    {% if humint %}
+    <div class="section">
+        <h2>7. HUMAN INTELLIGENCE (HUMINT)</h2>
+
+        <h3>Source Information</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Details</th>
+                    <th>Reliability</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Informant Reports</strong></td>
+                    <td>{{ humint.informant_reports }}</td>
+                    <td class="risk-high">HIGH</td>
+                </tr>
+                <tr>
+                    <td><strong>Source Reliability</strong></td>
+                    <td>{{ humint.source_reliability }}</td>
+                    <td>VERIFIED</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Behavioral Intelligence</h3>
+        <ul>
+            <li><strong>Habits & Patterns:</strong> {{ humint.habits_patterns | redact }}</li>
+            <li><strong>Known Associates:</strong> {{ humint.known_contacts | redact }}</li>
+            <li><strong>Preferred Locations:</strong> {{ humint.preferred_locations | redact }}</li>
+        </ul>
+
+        <h3>Active Operations</h3>
+        <div class="infobox risk-critical">
+            <strong>CURRENT OPERATION:</strong> {{ humint.current_operation | redact }}<br>
+            <strong>TIMELINE:</strong> {{ humint.operation_timeline | redact }}<br>
+            <strong>THREAT LEVEL:</strong> <span class="risk-critical">CRITICAL</span>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- SECTION 8: FINANCIAL INTELLIGENCE -->
+    {% if financial_intelligence %}
+    <div class="section">
+        <h2>8. FINANCIAL INTELLIGENCE</h2>
+
+        <h3>Known Assets & Accounts</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Asset Type</th>
+                    <th>Details/Value</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Bank Accounts</strong></td>
+                    <td>{{ financial_intelligence.known_bank_accounts }}</td>
+                    <td>MONITORED</td>
+                </tr>
+                <tr class="risk-critical">
+                    <td><strong>Cryptocurrency Holdings</strong></td>
+                    <td>{{ financial_intelligence.cryptocurrency_holdings }}</td>
+                    <td>UNDER SURVEILLANCE</td>
+                </tr>
+                <tr>
+                    <td><strong>Property Ownership</strong></td>
+                    <td>{{ financial_intelligence.property_ownership }}</td>
+                    <td>REGISTERED</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Financial Activity Analysis</h3>
+        <ul>
+            <li><strong>Transaction Patterns:</strong> {{ financial_intelligence.transaction_patterns | redact }}</li>
+            <li><strong>Estimated Annual Income:</strong> {{ financial_intelligence.estimated_annual_income }}</li>
+            <li><strong>Primary Funding Source:</strong> CRIMINAL ENTERPRISE</li>
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- SECTION 9: DIGITAL FOOTPRINT -->
+    <div class="section">
+        <h2>9. DETAILED DIGITAL FOOTPRINT ANALYSIS</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Platform</th>
+                    <th>Username/Handle</th>
+                    <th>Activity Level</th>
+                    <th>Risk Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in digital_footprint %}
+                {% set platform = row.get('platform') or row.get('Platform', '') %}
+                {% set username = row.get('username') or row.get('Username', '') %}
+                {% set activity = row.get('activity') or row.get('Activity_Level') or row.get('Activity Level', '') %}
+                {% set risk_level = (row.get('risk_level') or row.get('Risk_Level') or row.get('Risk Level', '')).upper() %}
+                <tr class="{% if 'CRITICAL' in risk_level %}risk-critical{% elif 'HIGH' in risk_level %}risk-high{% elif 'MEDIUM' in risk_level %}risk-medium{% else %}risk-low{% endif %}">
+                    <td><strong>{{ platform }}</strong></td>
+                    <td>{{ username | redact }}</td>
+                    <td>{{ activity }}</td>
+                    <td><strong>{{ risk_level }}</strong></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 10: TIMELINE OF EVENTS -->
+    <div class="section">
+        <h2>10. TIMELINE OF SIGNIFICANT EVENTS</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Date/Time (UTC)</th>
+                    <th>Event Description</th>
+                    <th>Source</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in timeline %}
+                {% set date = row.get('date') or row.get('Date', '') %}
+                {% set event = row.get('event') or row.get('Event_Description') or row.get('Event Description', '') %}
+                {% set source = row.get('source') or row.get('Source', 'SIGINT') %}
+                {% set confidence = row.get('confidence') or row.get('Confidence', 'HIGH') %}
+                <tr>
+                    <td><strong>{{ date }}</strong></td>
+                    <td>{{ event | redact }}</td>
+                    <td>{{ source }}</td>
+                    <td><span class="confidence-{{ confidence.lower() }}">{{ confidence }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 11: INCIDENT HISTORY -->
+    {% if incidents %}
+    <div class="section">
+        <h2>11. INCIDENT HISTORY</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Incident ID</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Severity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for incident in incidents %}
+                <tr class="{% if incident.severity == 'CRITICAL' %}risk-critical{% elif incident.severity == 'HIGH' %}risk-high{% else %}risk-medium{% endif %}">
+                    <td><strong>{{ incident.id }}</strong></td>
+                    <td>{{ incident.date }}</td>
+                    <td>{{ incident.type }}</td>
+                    <td>{{ incident.description | redact }}</td>
+                    <td><strong>{{ incident.severity }}</strong></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- SECTION 12: CONNECTIONS & ASSOCIATIONS -->
+    {% if connections %}
+    <div class="section">
+        <h2>12. CONNECTIONS & CRIMINAL ASSOCIATIONS</h2>
+
+        <h3>Network & Associates</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Associate Name</th>
+                    <th>Role/Relationship</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if connections.criminal_associates is string %}
+                <tr class="risk-high">
+                    <td colspan="3">{{ connections.criminal_associates | redact }}</td>
+                </tr>
+                {% else %}
+                {% for associate in connections.criminal_associates %}
+                <tr class="risk-high">
+                    <td>{{ associate | redact }}</td>
+                    <td>Criminal Associate</td>
+                    <td>MONITORED</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+        <h3>International Infrastructure</h3>
+        <ul>
+            <li><strong>Primary Base:</strong> {{ connections.international_reach | redact }}</li>
+            <li><strong>Known Safe Houses:</strong> {{ connections.known_safe_houses | redact }}</li>
+            {% if connections.border_crossing_patterns %}<li><strong>Border Crossing Patterns:</strong> {{ connections.border_crossing_patterns | redact }}</li>{% endif %}
+            {% if connections.handlers %}<li><strong>Known Handlers:</strong> {{ connections.handlers | redact }}</li>{% endif %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- SECTION 13: RECOMMENDATIONS -->
+    <div class="section">
+        <h2>13. RECOMMENDATIONS & IMMEDIATE ACTIONS</h2>
+
+        <h3>Priority Actions Required</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Action Item</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if recommendations %}
+                {% for action in recommendations.immediate_actions %}
+                <tr class="risk-critical">
+                    <td>{{ loop.index }}</td>
+                    <td>{{ action }}</td>
+                    <td><strong>CRITICAL</strong></td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+        <h3>Ongoing Operations & Surveillance</h3>
+        <ol>
+            {% if recommendations %}
+            {% for operation in recommendations.ongoing_operations %}
+            <li>{{ operation }}</li>
+            {% endfor %}
+            {% endif %}
+        </ol>
+
+        <h3>Resource Allocation</h3>
+        <div class="infobox risk-critical">
+            <strong>PRIORITY LEVEL:</strong> CRITICAL<br>
+            <strong>RECOMMENDED RESOURCES:</strong> Full intelligence team deployment with international coordination<br>
+            <strong>COORDINATION AUTHORITY:</strong> Immediate escalation to inter-agency task force required<br>
+            <strong>OPERATIONAL TEMPO:</strong> 24/7 continuous monitoring and surveillance
+        </div>
+    </div>
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- FOOTER -->
+    <div class="banner-class">
+        {{ meta.classification }}<br>
+        END OF CLASSIFIED INTELLIGENCE REPORT<br>
+        DECLASSIFY ON: {{ meta.declassification_date }}
+    </div>
+
+    <div class="barcode"></div>
+
+    <div class="footer-banner">
+        DOCUMENT: {{ meta.report_id }}<br>
+        DISTRIBUTION: {{ meta.handling_caveats }}<br>
+        AUTHORIZED RECIPIENTS ONLY
+    </div>
+</body>
+</html>

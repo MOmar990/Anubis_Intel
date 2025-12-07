@@ -1,0 +1,6 @@
+{
+  "RAVEN_PDF_ENCRYPT": true,
+  "RAVEN_PDF_PASSWORD": "dpro8890",
+  "RAVEN_EXIF_STRIP": true,
+  "RAVEN_AUDIT_LOGGING": true
+}
