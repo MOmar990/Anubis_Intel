@@ -24,6 +24,46 @@ In ancient Egypt, **Anubis** stood as the guardian of secrets and judge of souls
 
 ---
 
+---
+
+## 👁️ Visual Intelligence (Interface)
+
+<div align="center">
+
+### 🛡️ Mission Control (Dashboard)
+*Real-time monitoring of intelligence assets, threat levels, and operational status*
+<br>
+<img src="screenshots/Dashboard-1.png" width="100%" alt="Main Dashboard" style="border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+
+<br><br>
+
+### 📊 Divine Analytics & Wisdom
+*Advanced visualization of threat matrices, trends, and network correlations*
+<p align="center">
+  <img src="screenshots/ANALYTICS-1.png" width="48%" alt="Analytics View" style="margin-right: 10px;" />
+  <img src="screenshots/ANALYTICS-2.png" width="48%" alt="Threat Matrix" />
+</p>
+
+<br>
+
+### ⚖️ The Hall of Judgment (Report Creation)
+*IC-Standard data entry with real-time validation and forensic sanitization*
+<p align="center">
+  <img src="screenshots/Reports_Editing-1.png" width="48%" alt="Editing Interface" style="margin-right: 10px;" />
+  <img src="screenshots/Report_ShowCase-1.png" width="48%" alt="Report Preview" />
+</p>
+
+<br>
+
+### 🗄️ Sacred Archives (Management)
+*Full-text search, version control, and audit trail tracking*
+<img src="screenshots/Reports_Management-1.png" width="100%" alt="Report Management" style="border-radius: 10px;">
+
+</div>
+
+---
+
+
 ## 🔱 Sacred Capabilities
 
 ### 📋 Intelligence Dossier Generation
